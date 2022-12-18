@@ -40,17 +40,42 @@ const Port_ConfigType Port_PinConfig =
 /*************************************************************************************************
  * LOCAL FUNCTION PROTOTYPE
  ************************************************************************************************/
-static void Port_SetInternalAttach(Port_PinType PinIndex,Port_PinInternalAttachType InternalAttachType);
-static void Port_SetOutputCurrent(Port_PinType PinIndex,Port_PinOutputCurrentType OutputCurrentType);
+static void Port_SetOutputCurrent(Port_PinType PinIndex,Port_PinOutputCurrentType OutputCurrentValue);
 static void Port_SetDirection(Port_PinType PinIndex,Port_PinDirectionType Direction);
 static void Port_SetMode(Port_PinType PinIndex,Port_PinModeType Mode);
 
 /*************************************************************************************************
  * LOCAL FUNCTIONS
  ************************************************************************************************/
+static void Port_SetOutputCurrent(Port_PinType PinIndex,Port_PinOutputCurrentType OutputCurrentValue)
+{
+    if (Port_PinIndex->PinStruct[PinIndex].PortPinId >= PIN0_ID && Port_PinIndex->PinStruct[PinIndex].PortPinId <= PIN7_ID)
+    {
+
+        switch (OutputCurrentValue)
+        {
+        case PORT_PIN_CURRENT_2MA:
+            SET_BIT(GPIOR2R(port_pin[PinIndex]),Port_PinIndex->PinStruct[PinIndex].PortPinId);
+            break;
+        case PORT_PIN_CURRENT_4MA:
+            SET_BIT(GPIOR4R(port_pin[PinIndex]),Port_PinIndex->PinStruct[PinIndex].PortPinId);
+            break;
+        case PORT_PIN_CURRENT_8MA:
+            SET_BIT(GPIOR8R(port_pin[PinIndex]),Port_PinIndex->PinStruct[PinIndex].PortPinId);
+            break;
+        default:
+            break;
+        }
+    }
+    else
+    {
+        /* Do Nothing... */
+    }
+}
+
 static void Port_SetDirection(Port_PinType PinIndex,Port_PinDirectionType Direction)
  {
-     if (Port_PinIndex->PinStruct[PinIndex].PortPinId >= PIN0_ID && Port_PinIndex->PinStruct[PinIndex].PortPinId <= PIN7_ID)
+     if ((Port_PinIndex->PinStruct[PinIndex].PortPinId >= PIN0_ID) && (Port_PinIndex->PinStruct[PinIndex].PortPinId <= PIN7_ID))
      {
          if (PORT_PIN_OUTPUT == Direction)
          {
@@ -81,6 +106,7 @@ static void Port_SetDirection(Port_PinType PinIndex,Port_PinDirectionType Direct
             {
             case RES_OFF:
                 CLEAR_BIT(GPIOPUR(port_pin[PinIndex]),Port_PinIndex->PinStruct[PinIndex].PortPinId);
+                break;
             case PULL_UP:
                 SET_BIT(GPIOPUR(port_pin[PinIndex]),Port_PinIndex->PinStruct[PinIndex].PortPinId);
                 break;
@@ -89,6 +115,7 @@ static void Port_SetDirection(Port_PinType PinIndex,Port_PinDirectionType Direct
                 break;
             case OPEN_DRAIN:
                 SET_BIT(GPIOODR(port_pin[PinIndex]),Port_PinIndex->PinStruct[PinIndex].PortPinId);
+                break;
             default:
                 break;
             }    
@@ -163,8 +190,8 @@ static void Port_SetMode(Port_PinType PinIndex,Port_PinModeType Mode)
  -----------------------------------------------------------------------------------*/
  void Port_Init(const Port_ConfigType* ConfigPtr)
  {
-    uint8 PinIndex;
-    uint8 port_pin_value = 10; /* Any value greater than 5 (PORTF_ID = 5, port_pin_value > PORTF_ID) */
+    uint8 PinIndex; /* Couter to loop on all PORT_CONFIGURED_PORT_PINS */
+    uint8 PortNum = 10; /* Any value greater than 5 (PORTF_ID = 5, PortNum > PORTF_ID) */
     if(ConfigPtr == NULL_PTR)
     {
         /*Do nothing */
@@ -173,14 +200,14 @@ static void Port_SetMode(Port_PinType PinIndex,Port_PinModeType Mode)
     {
         for (PinIndex = 0; PinIndex < PORT_CONFIGURED_PORT_PINS; PinIndex++)
         {
-            if (port_pin[PinIndex] == port_pin_value)
+            if (port_pin[PinIndex] == PortNum)
             {
                 /* Do nothing : This Port is Enabled before */
             }
             else
             {
                 SET_BIT(SYSCTL_RCGCGPIO,port_pin[PinIndex]);
-                port_pin_value = port_pin[PinIndex];
+                PortNum = port_pin[PinIndex];
             }
             /* unlock the bit in Commit Register to the NMI PINs (PF0/PD7) if it is configured to use */
             if(((ConfigPtr->PinStruct[PinIndex].PortPinId == PIN0_ID) && (port_pin[PinIndex] == PORTF_ID))||((ConfigPtr->PinStruct[PinIndex].PortPinId==PIN7_ID)&&(port_pin[PinIndex]==PORTD_ID)))
@@ -190,15 +217,18 @@ static void Port_SetMode(Port_PinType PinIndex,Port_PinModeType Mode)
             }
             else if ((ConfigPtr->PinStruct[PinIndex].PortPinId <= PIN3_ID) && (port_pin[PinIndex] == PORTC_ID))
             {
-                /* CAUTION: this is the JTAG pins */
+                /* CAUTION: this is a JTAG pins */
                 continue; /* increment and complete, don't go to the last else */
             }
             else
             {
                 /* Do Nothing... */
             }
+            /* Initiate a global pointer (Port_PinIndex) to use it outside (Function Port_Init) with the same data input to the Port_Init */
+            Port_PinIndex = ConfigPtr;
             Port_SetMode(PinIndex,ConfigPtr->PinStruct[PinIndex].PortPinMode);
             Port_SetDirection(PinIndex,ConfigPtr->PinStruct[PinIndex].PortPinDirection);
+            Port_SetOutputCurrent(PinIndex,ConfigPtr->PinStruct[PinIndex].PortPinOutputCurrent);
         }
     }
     
