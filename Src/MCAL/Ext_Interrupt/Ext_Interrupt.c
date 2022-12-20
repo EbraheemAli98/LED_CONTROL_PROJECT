@@ -28,7 +28,7 @@ const ExtInt_ConfigType ExtInterruptConfig =
 /*************************************************************************************************
  * LOCAL DATA
  ************************************************************************************************/
-static volatile uint32 (*g_GPIOF_CallBck_Ptr)(void) = NULL_PTR; 
+static volatile void (*g_GPIOF_CallBck_Ptr)(void) = NULL_PTR; 
 static const ExtInt_ConfigType *InterruptConfigPtr = NULL_PTR;
 
 
@@ -51,52 +51,53 @@ static const ExtInt_ConfigType *InterruptConfigPtr = NULL_PTR;
     ExtInt_PinType PinIndex;
     if (ConfigPtr != NULL_PTR)
     {
+        InterruptConfigPtr = ConfigPtr;
         for (PinIndex = 0; PinIndex < EXT_CONFIGURED_INTERRUPTS; PinIndex++)
         {
-            InterruptConfigPtr = ConfigPtr;
+            
             /* Enable/Disable External Interrupt */
             switch (ConfigPtr->Config[PinIndex].permission)
             {
             case ENABLE:
             /* Select the Sense Trigger value */
-                switch (InterruptConfigPtr->Config[PinIndex].SenseTriggerValue)
+                switch (ConfigPtr->Config[PinIndex].SenseTriggerValue)
                 {
                 case LEVEL:
-                    SET_BIT(GPIOIS(InterruptConfigPtr->Config[PinIndex].portId), InterruptConfigPtr->Config[PinIndex].pinId);
+                    SET_BIT(GPIOIS(ConfigPtr->Config[PinIndex].portId), ConfigPtr->Config[PinIndex].pinId);
                     break;
                 case EDGE:
-                    CLEAR_BIT(GPIOIS(InterruptConfigPtr->Config[PinIndex].portId), InterruptConfigPtr->Config[PinIndex].pinId);
+                    CLEAR_BIT(GPIOIS(ConfigPtr->Config[PinIndex].portId), ConfigPtr->Config[PinIndex].pinId);
                     break;
                 default:
                     break;
                 }
             /* Select the Edge Type */
-                switch (InterruptConfigPtr->Config[PinIndex].EdgeValue)
+                switch (ConfigPtr->Config[PinIndex].EdgeValue)
                 {
                 case RISING:
-                    CLEAR_BIT(GPIOIBE(InterruptConfigPtr->Config[PinIndex].portId), InterruptConfigPtr->Config[PinIndex].pinId);
-                    SET_BIT(GPIOIEV(InterruptConfigPtr->Config[PinIndex].portId), InterruptConfigPtr->Config[PinIndex].pinId);
+                    CLEAR_BIT(GPIOIBE(ConfigPtr->Config[PinIndex].portId), ConfigPtr->Config[PinIndex].pinId);
+                    SET_BIT(GPIOIEV(ConfigPtr->Config[PinIndex].portId), ConfigPtr->Config[PinIndex].pinId);
                     break;
                 case FALLING:
-                    CLEAR_BIT(GPIOIBE(InterruptConfigPtr->Config[PinIndex].portId), InterruptConfigPtr->Config[PinIndex].pinId);
-                    CLEAR_BIT(GPIOIEV(InterruptConfigPtr->Config[PinIndex].portId), InterruptConfigPtr->Config[PinIndex].pinId);
+                    CLEAR_BIT(GPIOIBE(ConfigPtr->Config[PinIndex].portId), ConfigPtr->Config[PinIndex].pinId);
+                    CLEAR_BIT(GPIOIEV(ConfigPtr->Config[PinIndex].portId), ConfigPtr->Config[PinIndex].pinId);
                     break;
                 case BOTH_EDGES:
-                    SET_BIT(GPIOIBE(InterruptConfigPtr->Config[PinIndex].portId), InterruptConfigPtr->Config[PinIndex].pinId);
+                    SET_BIT(GPIOIBE(ConfigPtr->Config[PinIndex].portId), ConfigPtr->Config[PinIndex].pinId);
                     break;
                 default:
                     break;
                 }
             /* Clear the prior interrupt */
-                SET_BIT(GPIOICR(InterruptConfigPtr->Config[PinIndex].portId), InterruptConfigPtr->Config[PinIndex].pinId);
+                SET_BIT(GPIOICR(ConfigPtr->Config[PinIndex].portId), ConfigPtr->Config[PinIndex].pinId);
             /* Enable the interrupt */
-                SET_BIT(GPIOIM(InterruptConfigPtr->Config[PinIndex].portId), InterruptConfigPtr->Config[PinIndex].pinId);
+                SET_BIT(GPIOIM(ConfigPtr->Config[PinIndex].portId), ConfigPtr->Config[PinIndex].pinId);
                 break;
 
             /* Disable the interrupt */
             case DISABLE:
-                SET_BIT(GPIOICR(InterruptConfigPtr->Config[PinIndex].portId), InterruptConfigPtr->Config[PinIndex].pinId);
-                CLEAR_BIT(GPIOIM(InterruptConfigPtr->Config[PinIndex].portId), InterruptConfigPtr->Config[PinIndex].pinId);
+                SET_BIT(GPIOICR(ConfigPtr->Config[PinIndex].portId), ConfigPtr->Config[PinIndex].pinId);
+                CLEAR_BIT(GPIOIM(ConfigPtr->Config[PinIndex].portId), ConfigPtr->Config[PinIndex].pinId);
                 break;
             default:
                 break;

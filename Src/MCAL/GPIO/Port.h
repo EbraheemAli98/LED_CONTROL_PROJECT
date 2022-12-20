@@ -15,7 +15,7 @@
  * INCLUDES
  ************************************************************************************************/
 #include "../../SERVICES/Std_Types.h"
-#include "../../SERVICES/Comman_Macro.h"
+#include "../Comman/PortPin_Macros.h"
 
 /*************************************************************************************************
  * GLOBAL CONSTANT MACROS

@@ -40,12 +40,12 @@ static void InterruptDisable(IntCtrl_InterruptType IntNum);
  ************************************************************************************************/
 static void InterruptEnable(IntCtrl_InterruptType IntNum)
 {
-    SET_BIT(ENx(IntNum),STD_HIGH);
+    SET_BIT(ENx(IntNum),IntNum);
 }
 
 static void InterruptDisable(IntCtrl_InterruptType IntNum)
 {
-    SET_BIT(DISx(IntNum),STD_HIGH);
+    SET_BIT(DISx(IntNum),IntNum);
 }
 #if 0
 static void SetPriorityGrouping(Group_SubGroupType PriorityGrouping)
