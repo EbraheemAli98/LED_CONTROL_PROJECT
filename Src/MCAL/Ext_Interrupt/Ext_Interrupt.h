@@ -1,16 +1,16 @@
 /**************************************************************************************************
  * File Description
  * -----------------------------------------------------------------------------------------------
- *      File: Dio.h
- *    Module: DIO_MODULE
+ *      File: IntCtrl.h
+ *    Module: IntCtrl_MODULE
  * 
- * Description: <Header file contains the Functions' declaration and configuration of Dio_module >
+ * Description: <write file decription here>
  * 
  **************************************************************************************************/
 
 
-#ifndef DIO_H
-#define DIO_H
+#ifndef EXT_INTERRUPT_H
+#define EXT_INTERRUPT_H
 
 /*************************************************************************************************
  * INCLUDES
@@ -21,114 +21,123 @@
 /*************************************************************************************************
  * GLOBAL CONSTANT MACROS
  ************************************************************************************************/
+#define EXT_CONFIGURED_INTERRUPTS   2u
+#define TIME_ON_INTERRUPT_PIN_ID    PIN0_ID
+#define TIME_OFF_INTERRUPT_PIN_ID   PIN4_ID
+#define TIME_ON_INTERRUPT_PORT_ID   PORTF_ID
+#define TIME_OFF_INTERRUPT_PORT_ID  PORTF_ID
 
-#define DIO_NUM_OF_CONFIGURED_CHANNELS          (3)
+#ifndef ENABLE
+#define ENABLE  1
+#endif
 
-#define DIO_LED_CHL_INDEX                       (0)
-#define DIO_ON_TIME_BUTTON_CHL_INDEX            (1)
-#define DIO_OFF_TIME_BUTTON_CHL_INDEX           (2)
-
-#define LED_PORT_ID                             (PORTF_ID)  /* PORTF */
-#define ON_TIME_BUTTON_PORT_ID                  (PORTF_ID) 
-#define OFF_TIME_BUTTON_PORT_ID                 (PORTF_ID)
-
-#define LED_CHL_ID                              (PIN2_ID)   /* Pin1 */
-#define ON_TIME_BUTTON_CHL_ID                   (PIN0_ID)   /* Pin0 */
-#define OFF_TIME_BUTTON_CHL_ID                  (PIN4_ID)   /* Pin4 */
+#ifndef DISABLE
+#define DISABLE 0
+#endif
 
 /*************************************************************************************************
  *  GLOBAL DATA TYPES AND STRUCTURES
  ************************************************************************************************/
-typedef uint8 Dio_ChannelType;
-typedef uint8 Dio_PortType;
-typedef uint8 Dio_LevelType;
-typedef uint8 Dio_PortLevelType;
+typedef uint8 ExtInt_PinType;
+typedef uint8 ExtInt_PortType;
+typedef uint8 ExtInt_StateType;
+typedef uint8 ExtInt_MaskPermissionType;
+
+typedef enum
+{
+    LEVEL,EDGE
+}ExtInt_SenseTriggerType;
+
+typedef enum
+{
+    RISING,FALLING,BOTH_EDGES
+}ExtInt_EdgeType;
+
+typedef struct Ext_Interrupt
+{
+    ExtInt_PinType pinId;
+    ExtInt_PinType portId;
+    ExtInt_SenseTriggerType SenseTriggerValue;
+    ExtInt_EdgeType EdgeValue;
+    ExtInt_MaskPermissionType permission;
+}ExtInt_Info;
 
 typedef struct 
 {
-    Dio_PortType PortId;
-    Dio_ChannelType ChannelId;
-}Dio_ConfigChannelType;
-
-
-typedef struct 
-{
-    Dio_ConfigChannelType Conf_Channel[DIO_NUM_OF_CONFIGURED_CHANNELS];
-}Dio_ConfigType;
-
+    ExtInt_Info Config[EXT_CONFIGURED_INTERRUPTS];
+}ExtInt_ConfigType;
 
 /*************************************************************************************************
- *  GLOBAL DATA
+ *  GLOBAL DATA 
  ************************************************************************************************/
-extern const Dio_ConfigType Dio_Config;
+extern const ExtInt_ConfigType ExtInterruptConfig;
 
-/*************************************************************************************************
- *  APIs DECLARATION
- ************************************************************************************************/
+/******************************************************************************************************
+ *  APIs DECLARATIONS
+ ******************************************************************************************************/
 /*-----------------------------------------------------------------------------------
- Service Name     : DioReadChannel
+ Service Name     : ExtInt_Init
  Sync/Async       : Synchronous
  Reentrnacy       : Reentrant
- Parameter(in)    : ChannelId -> Id of the Dio channel(pin).
- Parameter(in/out): None
- Parameter(out)   : None
- Return Value     : Channel_Level -> Level of the Dio pin. (HIGH/LOW).
- Description      : Function to read the channel level and return it.
- -----------------------------------------------------------------------------------*/
-Dio_LevelType Dio_ReadChannel(Dio_ChannelType ChannelIndex);
-
-/*-----------------------------------------------------------------------------------
- Service Name     : DioWriteChannel
- Sync/Async       : Synchronous
- Reentrnacy       : Reentrant
- Parameter(in)    : ChannelId -> Id of the Dio channel(pin).
-                    Level     -> Dio pin level.
+ Parameter(in)    : ConfigPtr -> Pointer to structure hold all the External interrupt
+                    configurations.
  Parameter(in/out): None
  Parameter(out)   : None
  Return Value     : None
- Description      : Function to set the channel level.
+ Description      : Function to set the External interrupt configurations.
  -----------------------------------------------------------------------------------*/
-void Dio_WriteChannel(Dio_ChannelType ChannelIndex, Dio_LevelType Level);
-
+ void ExtInt_Init(const ExtInt_ConfigType *ConfigPtr);
+ 
 /*-----------------------------------------------------------------------------------
- Service Name     : Dio_ReadPort
+ Service Name     : ExtInt_SetCallBack
  Sync/Async       : Synchronous
  Reentrnacy       : Reentrant
- Parameter(in)    : PortId -> Id of the Dio port.
- Parameter(in/out): None
- Parameter(out)   : None
- Return Value     : Port_Level -> Level of the Dio Port. (HIGH/LOW).
- Description      : Function to read the Port level and return it.
- -----------------------------------------------------------------------------------*/
-Dio_PortLevelType Dio_ReadPort(Dio_PortType PortId);
-
-/*-----------------------------------------------------------------------------------
- Service Name     : Dio_WritePort
- Sync/Async       : Synchronous
- Reentrnacy       : Reentrant
- Parameter(in)    : PortId -> Id of the Dio Port.
-                    Level  -> Level of the Port.
+ Parameter(in)    : None
  Parameter(in/out): None
  Parameter(out)   : None
  Return Value     : None
- Description      : Function to set the Port level.
+ Description      : Function to pass the callback function to the handler function.
  -----------------------------------------------------------------------------------*/
-void Dio_WritePort(Dio_PortType PortId,Dio_PortLevelType Level);
+ void ExtInt_SetCallBack(void (*a_FunPtr)(void));
 
 /*-----------------------------------------------------------------------------------
- Service Name     : Dio_FlipChannel
+ Service Name     : ExtInt_InterruptClear
  Sync/Async       : Synchronous
  Reentrnacy       : Reentrant
- Parameter(in)    : ChannelId -> Id of the Dio channel(pin).
+ Parameter(in)    : PinIndex  : Interrupt Pin index in the configuration sturcture.
  Parameter(in/out): None
  Parameter(out)   : None
- Return Value     : Channel_Level -> Level of the Dio pin. (HIGH/LOW).
- Description      : Function to flip the channel level and return it after flipping.
+ Return Value     : None
+ Description      : Function to clear Interrupt flag.
  -----------------------------------------------------------------------------------*/
-Dio_LevelType Dio_FlipChannel(Dio_ChannelType ChannelIndex);
+void ExtInt_InterruptClear(ExtInt_PinType PinIndex); 
 
-#endif /* DIO_H */
+/*-----------------------------------------------------------------------------------
+ Service Name     : ExtInt_InterruptStatus
+ Sync/Async       : Synchronous
+ Reentrnacy       : Reentrant
+ Parameter(in)    : PinIndex  : Interrupt Pin index in the configuration sturcture.
+ Parameter(in/out): None
+ Parameter(out)   : None
+ Return Value     : None
+ Description      : Function to clear Interrupt flag.
+ -----------------------------------------------------------------------------------*/
+ExtInt_StateType ExtInt_InterruptStatus(ExtInt_PinType PinIndex);
+
+/*-----------------------------------------------------------------------------------
+ Service Name     : ExtInt_InterruptStatus
+ Sync/Async       : Synchronous
+ Reentrnacy       : Reentrant
+ Parameter(in)    : PinIndex  : Interrupt Pin index in the configuration sturcture.
+ Parameter(in/out): None
+ Parameter(out)   : None
+ Return Value     : None
+ Description      : Function to clear Interrupt flag.
+ -----------------------------------------------------------------------------------*/
+void ExtInt_Disable(ExtInt_PinType ExtIntIndex);
+
+#endif /* EXT_INTERRUPT_H */
 
 /***************************************************************************************
-*   END OF FILE: Dio.h
+*   END OF FILE: IntCtrl.c
 ***************************************************************************************/

@@ -2,10 +2,12 @@
  * File Description
  * ------------------------------------------------------------------------------------------*/
 /**      @file  Port.c
- *       @brief 
+ *       @brief File to initialized the configured pins used in the project.
  * 
  *     @details
  *     @author  Ebraheem Ali
+ *     @date    Dec 19, 2022
+ *     @version V1.0
  *********************************************************************************************/
 
 /***************************************************************************************
@@ -18,7 +20,6 @@
  * LOCAL MACROS 
  ************************************************************************************************/
 #define PORT_LOCK_VALUE         (uint32)0x4C4F434B
-
 
 /*************************************************************************************************
  * LOCAL DATA
@@ -214,6 +215,7 @@ static void Port_SetMode(Port_PinType PinIndex,Port_PinModeType Mode)
             {
                 GPIOLOCK(port_pin[PinIndex]) = PORT_LOCK_VALUE;
                 SET_BIT(GPIOCR(port_pin[PinIndex]),ConfigPtr->PinStruct[PinIndex].PortPinId);
+                GPIOLOCK(port_pin[PinIndex]) = 0;
             }
             else if ((ConfigPtr->PinStruct[PinIndex].PortPinId <= PIN3_ID) && (port_pin[PinIndex] == PORTC_ID))
             {

@@ -30,18 +30,6 @@
 /*************************************************************************************************
  *  APIs DECLARATION
  ************************************************************************************************/
-/*-----------------------------------------------------------------------------------
- Service Name     : LED_Init
- Sync/Async       : Synchronous
- Reentrnacy       : Non-Reentrant
- Parameter(in)    : None
- Parameter(in/out): None
- Parameter(out)   : None
- Return Value     : None
- Description      : Function to initialize Led.
- -----------------------------------------------------------------------------------*/
- void LED_Init(void);
-
  /*-----------------------------------------------------------------------------------
  Service Name     : LED_WriteHigh
  Sync/Async       : Synchronous

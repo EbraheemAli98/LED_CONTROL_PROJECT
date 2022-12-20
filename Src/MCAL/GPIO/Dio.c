@@ -6,6 +6,8 @@
  * 
  *     @details
  *     @author  Ebraheem Ali
+ *     @date    Dec 18, 2022
+ *     @version V1.0
  *********************************************************************************************/
 
 /***************************************************************************************
@@ -80,7 +82,7 @@ Dio_LevelType Dio_ReadChannel(Dio_ChannelType ChannelIndex)
  Service Name     : DioWriteChannel
  Sync/Async       : Synchronous
  Reentrnacy       : Reentrant
- Parameter(in)    : ChannelIndex -> Id of the Dio channel(pin).
+ Parameter(in)    : ChannelIndex -> Index of the Dio channel(pin).
                     Level     -> Dio pin level.
  Parameter(in/out): None
  Parameter(out)   : None

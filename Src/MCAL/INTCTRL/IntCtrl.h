@@ -2,7 +2,7 @@
  * File Description
  * -----------------------------------------------------------------------------------------------
  *      File: IntCtrl.h
- *    Module: IntCtrl
+ *    Module: IntCtrl_MODULE
  * 
  * Description: <write file decription here>
  * 
@@ -15,21 +15,23 @@
 /*************************************************************************************************
  * INCLUDES
  ************************************************************************************************/
-#include "../../Confing/IntCtrl_Cfg.h"
+#include "../../SERVICES/Std_Types.h"
+#include "../../SERVICES/Comman_Macro.h"
 
 /*************************************************************************************************
- * GLOBAL CONSTANT MACROS
+ * LOCAL CONSTANT MACROS
  ************************************************************************************************/
-#define APINT_KEY                  0xFA05U
-
-/*************************************************************************************************
- *  GLOBAL FUNCTION MACROS
- ************************************************************************************************/
-
+#define NUM_OF_CONFIGURED_INTERRUPTS    3
+#define APINT_KEY         0x05FA0000u
+#define INTA    5u
+#define INTB    13u
+#define INTC    21u
+#define INTD    29u
 
 /*************************************************************************************************
  *  GLOBAL DATA TYPES AND STRUCTURES
  ************************************************************************************************/
+
 typedef enum
 {
     GPIO_PORTA,
@@ -70,7 +72,7 @@ typedef enum
     QEI1,
     CAN0,
     CAN1,
-    HIBERNATION_MODULE,
+    HIBERNATION_MODULE =43,
     USB,
     PWM0_GENETATOR3,
     DMA_SW,
@@ -127,14 +129,15 @@ typedef enum
     SYSTICK
 }IntCtrl_ExceptionType;
 
+#if 0
 typedef enum
 {
     EGIHT_GROUP_NONE_SUBGROUP = 0x00000400,
     FOUR_GROUP_TWO_SUBGROUP,
     TWO_GROUP_FOUR_SUBGROUP,
-    ONE_GROUP_EGIHT_SUBGROUP
-    
+    ONE_GROUP_EGIHT_SUBGROUP 
 }Group_SubGroupType;
+#endif
 
 typedef enum
 {
@@ -149,22 +152,43 @@ typedef enum
 
 }IntCtrl_PriorityNum;
 
+typedef enum
+{
+    DISABLE,ENABLE
+}IntCtrl_AccessType;
+
+typedef struct 
+{
+    IntCtrl_AccessType MaskPermission;
+    IntCtrl_PriorityNum Priortiy_Level;
+    IntCtrl_InterruptType IntNum;
+}IntCtrl_InterruptInfoType;
+
+typedef struct 
+{
+    IntCtrl_InterruptInfoType IntConfig[NUM_OF_CONFIGURED_INTERRUPTS];
+}IntCtrl_ConfigType;
+
+
 /*************************************************************************************************
- *  GLOBAL FUNCTION PROTOTYPES
- ************************************************************************************************/
+ *  GLOBAL DATA
+ ***********************************************************************************************/
+extern const IntCtrl_ConfigType InterruptConfigInfo;
 
-
-/***************************************************************************************************   
- * \Syntax        : void IntCtrl_Init(void)
- * \Description   : initialize Nvic/SCB Modules by parsing the Configuration into Nvic/SCB registers 
- * 
- * \Sync\Async    : Synchronous
- * \Reentrancy    : Non-reentrant
- * \Parameter(in) : None
- * \Parameter(out): None
- * \Return Value  : None
- **************************************************************************************************/
-void IntCtrl_Init(void);
+/******************************************************************************************************
+ *  APIs DECLARATIONS
+ ******************************************************************************************************/
+/*-----------------------------------------------------------------------------------
+ Service Name     : IntCtrl_Init
+ Sync/Async       : Synchronous
+ Reentrnacy       : Reentrant
+ Parameter(in)    : None
+ Parameter(in/out): None
+ Parameter(out)   : None
+ Return Value     : None
+ Description      : Function to initiate all configured pins.
+ -----------------------------------------------------------------------------------*/
+void IntCtrl_Init(const IntCtrl_ConfigType *ConfigPtr);
 
 
 #endif /* INTCTRL_H */

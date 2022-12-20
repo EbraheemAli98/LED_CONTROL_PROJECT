@@ -2,9 +2,9 @@
  * File Description
  * -----------------------------------------------------------------------------------------------
  *      File: Port.h
- *    Module: GPIO_MODULE
+ *    Module: PORT_MODULE
  * 
- * Description: <write file decription here>
+ * Description: <Header file for Port_pins configurations and functions' declarations>
  * 
  **************************************************************************************************/
 

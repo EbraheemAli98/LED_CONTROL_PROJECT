@@ -1,18 +1,18 @@
 /**************************************************************************************************
  * File Description
  * -----------------------------------------------------------------------------------------------
- *      File: Bit_Mask.h
- *    Module: Bit_Mask
+ *      File: Comman_Macro.h
+ *    Module: Comman_Macro_MODULE
  * 
  * Description: Header file for Bit Masking manipulation.
  * 
  **************************************************************************************************/
 
-#ifndef BIT_MASK_H
-#define BIT_MASK_H
+#ifndef COMMAN_MACRO_H
+#define COMMAN_MACRO_H
 
 /*************************************************************************************************
- * INCLUDES
+ * GLOBAL MACROS DEFINITION
  ************************************************************************************************/
 
 #define SET_BIT(REG,BIT)           (REG = (REG | (1<<BIT)))
@@ -24,9 +24,12 @@
 #define BIT_IS_SET(REG,BIT)        (REG = ((REG & (1<<BIT))>>BIT))
 #define BIT_IS_CLEAR(REG,BIT)      (REG = !((REG & (1<<BIT))>>BIT)) 
 
+#define WRITE_PORT_MASK(REG,VALUE)       (REG = (REG)|(VALUE))
 
-#endif /* BIT_MASK_H */
+
+
+#endif /* COMMAN_MACRO_H */
 
 /***************************************************************************************
-*   END OF FILE: Bit_Mask.h
+*   END OF FILE: Comman_Macro.h
 ***************************************************************************************/

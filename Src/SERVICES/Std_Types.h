@@ -17,7 +17,6 @@
 
 
 
-
 /*************************************************************************************************
  *  GLOBAL CONSTANT MACROS
  ************************************************************************************************/
@@ -46,28 +45,6 @@
 #define NULL_PTR        ((void*)0)
 
 #define NUM_OF_CHANNELS_IN_PORT         (8)
-
-typedef enum 
-{
-    PIN0_ID,
-    PIN1_ID,
-    PIN2_ID,
-    PIN3_ID,
-    PIN4_ID,
-    PIN5_ID,
-    PIN6_ID,
-    PIN7_ID
-}Port_PinNumType;
-
-typedef enum
-{
-    PORTA_ID,
-    PORTB_ID,
-    PORTC_ID,
-    PORTD_ID,
-    PORTE_ID,
-    PORTF_ID
-}Port_IdType;
 
 typedef unsigned char         boolean;
 

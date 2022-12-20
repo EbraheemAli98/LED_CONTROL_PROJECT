@@ -17,18 +17,12 @@
 #include "../../SERVICES/Std_Types.h"
 
 /*************************************************************************************************
- *  GLOBAL DATA TYPES AND STRUCTURES
- ************************************************************************************************/
-
-
-
-/*************************************************************************************************
  * GLOBAL CONSTANT MACROS
- ************************************************************************************************/
-#define CORTEXM4_PERI_BASE_ADDRESS       0xE000E000
-#define APINT                           *((volatile uint32*)(CORTEXM4_PERI_BASE_ADDRESS+0xD0C))
-#define INTCTRL                         *((volatile INTCTRL_Tag*)(CORTEXM4_PERI_BASE_ADDRESS+0xD04)) 
+ ************************************************************************************************/ 
 
+/*-----------------------------------------------------------------------------------------------
+  GPIO CONSTANT MACROS
+ ------------------------------------------------------------------------------------------------*/
 #define GPIO_OFFSET_ADDRESS(i)           (i<4? ((0x40004000)+((i)*0x1000)):(0x40024000)+((i-4)*0x1000))
 #define GPIODATA(i)                     *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x3FC))
 #define GPIODIR(i)                      *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x400))
@@ -52,8 +46,21 @@
 #define GPIOCR(i)                       *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x524))
 #define GPIOAMSEL(i)                    *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x528))
 #define GPIOPCTL(i)                     *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x52C))
-
+/*-----------------------------------------------------------------------------------------------
+  INTCTRL CONSTANT MACROS
+ ------------------------------------------------------------------------------------------------*/
+#define CORTEXM4_PERI_BASE_ADDRESS       0xE000E000
+#define PRIx(i)                         (*((volatile uint32*)(CORTEXM4_PERI_BASE_ADDRESS+(0x00000400+((i/4)*4)))))
+#define ENx(i)                          (*((volatile uint32*)(CORTEXM4_PERI_BASE_ADDRESS+(0x00000100+((i/32)*32)))))
+#define DISx(i)                         (*((volatile uint32*)(CORTEXM4_PERI_BASE_ADDRESS+(0x00000180+((i/32)*32)))))
+#define APINT                           *((volatile uint32*)(CORTEXM4_PERI_BASE_ADDRESS+0xD0C))
+#define INTCTRL                         *((volatile INTCTRL_Tag*)(CORTEXM4_PERI_BASE_ADDRESS+0xD04))
+/*-----------------------------------------------------------------------------------------------
+  SYSCTRL CONSTANT MACROS
+ ------------------------------------------------------------------------------------------------*/
 #define SYSCTL_RCGCGPIO                 *((volatile uint32*)(0x400FE000+0x608))
+
+
 #endif /* MCU_HW_H */
 
 /***************************************************************************************
