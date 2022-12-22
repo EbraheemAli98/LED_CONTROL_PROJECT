@@ -38,11 +38,11 @@
 /*************************************************************************************************
  *  GLOBAL DATA TYPES AND STRUCTURES
  ************************************************************************************************/
-typedef uint8  Gpt_ChannelType;  /*Numeric ID of a GPT channel*/
+typedef uint8 Gpt_ChannelType;  /*Numeric ID of a GPT channel*/
 typedef uint32 Gpt_ValueType;    /*Type for reading and setting the timer values (in number of ticks)*/
 typedef uint32 Gpt_PredefTimerType; /*Type for GPT Predef Timers*/
-typedef uint32 Gpt_ChannelTickFrequencyType; /*Specifies the tick frequency of the timer channel in Hz.*/
-typedef void (*Gpt_CallBackPtr)(void);
+typedef float32 Gpt_ChannelTickFrequencyType; /*Specifies the tick frequency of the timer channel in Hz.*/
+typedef volatile void (*Gpt_CallBackPtrType)(void);
 /*---------------------------------------------------------------------------------------------------
 [Enumeration Name] : Gpt_ModeType
 [Description]      : Modes of the GPT driver.
@@ -77,7 +77,6 @@ typedef enum
     Gpt_ModeType GptChannelMode;/*Specifies the behavior of the timer channel after the target time is reached.*/
     Gpt_PredefTimerType GptChannelTickFrequency; /*Specifies the tick frequency of the timer channel in Hz.*/
     Gpt_ValueType GptChannelTickValueMax;
-    Gpt_CallBackPtr GptNotification;
  }Gpt_ChannelConfigSet;
  
 /*---------------------------------------------------------------------------------------------------
@@ -156,7 +155,7 @@ void Gpt_DisableNotification(Gpt_ChannelType Channel);
  Return Value     : None
  Description      : Function Sets the Counter mode of the GPT.
  -----------------------------------------------------------------------------------*/
-void Gpt_SetMode(Gpt_ChannelType Mode);
+void Gpt_SetMode(Gpt_ChannelType Channel,Gpt_ChannelType Mode);
 
  /*-------------------------------------------------------------------------------------
  Service Name     : Gpt_StartTimer
@@ -194,9 +193,9 @@ void Gpt_StopTimer(Gpt_ChannelType Channel);
  Description      : Function callback.
  ----------------------------------------------------------------------------------------*/
  void Gpt_InterruptFlagReset(Gpt_ChannelType Channel);
- 
+
  /*-------------------------------------------------------------------------------------
- Service Name     : Gpt_Notification_Channel0
+ Service Name     : Gpt_Notification_T0
  Sync/Async       : Synchronous
  Reentrnacy       : Reentrant
  Parameter(in)    : None
@@ -205,10 +204,10 @@ void Gpt_StopTimer(Gpt_ChannelType Channel);
  Return Value     : void
  Description      : Function callback.
  ----------------------------------------------------------------------------------------*/
-void Gpt_Notification_Channel0(void);
+void Gpt_Notification_T0(void);
 
  /*-------------------------------------------------------------------------------------
- Service Name     : Gpt_Notification_Channel1
+ Service Name     : Gpt_Notification_T1
  Sync/Async       : Synchronous
  Reentrnacy       : Reentrant
  Parameter(in)    : None
@@ -217,11 +216,11 @@ void Gpt_Notification_Channel0(void);
  Return Value     : void
  Description      : Function callback.
  ----------------------------------------------------------------------------------------*/
-void Gpt_Notification_Channel1(void);
+void Gpt_Notification_T1(void);
 
 
  /*-------------------------------------------------------------------------------------
- Service Name     : Gpt_Notification_Channel2
+ Service Name     : Gpt_Notification_T2
  Sync/Async       : Synchronous
  Reentrnacy       : Reentrant
  Parameter(in)    : None
@@ -230,10 +229,10 @@ void Gpt_Notification_Channel1(void);
  Return Value     : void
  Description      : Function callback.
  ----------------------------------------------------------------------------------------*/
-void Gpt_Notification_Channel2(void);
+void Gpt_Notification_T2(void);
 
  /*-------------------------------------------------------------------------------------
- Service Name     : Gpt_Notification_Channel3
+ Service Name     : Gpt_Notification_T3
  Sync/Async       : Synchronous
  Reentrnacy       : Reentrant
  Parameter(in)    : None
@@ -242,10 +241,10 @@ void Gpt_Notification_Channel2(void);
  Return Value     : void
  Description      : Function callback.
  ----------------------------------------------------------------------------------------*/
-void Gpt_Notification_Channel3(void);
+void Gpt_Notification_T0(void);
 
  /*-------------------------------------------------------------------------------------
- Service Name     : Gpt_Notification_Channel4
+ Service Name     : Gpt_Notification_T4
  Sync/Async       : Synchronous
  Reentrnacy       : Reentrant
  Parameter(in)    : None
@@ -254,10 +253,10 @@ void Gpt_Notification_Channel3(void);
  Return Value     : void
  Description      : Function callback.
  ----------------------------------------------------------------------------------------*/
-void Gpt_Notification_Channel4(void);
+void Gpt_Notification_T4(void);
 
  /*-------------------------------------------------------------------------------------
- Service Name     : Gpt_Notification_Channel5
+ Service Name     : Gpt_Notification_T5
  Sync/Async       : Synchronous
  Reentrnacy       : Reentrant
  Parameter(in)    : None
@@ -266,7 +265,7 @@ void Gpt_Notification_Channel4(void);
  Return Value     : void
  Description      : Function callback.
  ----------------------------------------------------------------------------------------*/
-void Gpt_Notification_Channel5(void);
+void Gpt_Notification_T5(void);
 
 
 #endif /* GPT_H */

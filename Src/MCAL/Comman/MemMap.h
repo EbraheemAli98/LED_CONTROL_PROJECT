@@ -24,7 +24,7 @@
   GPIO DRIVER CONSTANT MACROS
  ------------------------------------------------------------------------------------------------*/
 #define GPIO_OFFSET_ADDRESS(i)          (i<4? ((0x40004000)+((i)*0x1000)):(0x40024000)+((i-4)*0x1000))
-#define GPIODATA(i)                     *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x3FC))
+#define GPIODATA(i)                     *(volatile uint32*)((GPIO_OFFSET_ADDRESS(i)+0x3FC))
 #define GPIODIR(i)                      *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x400))
 #define GPIOIS(i)                       *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x404))
 #define GPIOIBE(i)                      *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x408))
@@ -58,22 +58,19 @@
 /*-----------------------------------------------------------------------------------------------
   GPT DRIVER CONSTANT MACROS
  ------------------------------------------------------------------------------------------------*/
-#define TIMER(i)                        *((volatile uint32*)((0x40030000)+((i)*0x1000)))
-#define GPTMCFG(i)                      *((volatile uint32*)(TIMER(i)+0x000))
-#define GPTMTAMR(i)                     *((volatile uint32*)(TIMER(i)+0x004))
-#define GPTMCTL(i)                      *((volatile uint32*)(TIMER(i)+0x00C))
-#define GPTMIMT(i)                      *((volatile uint32*)(TIMER(i)+0x018))
-#define GPTMRIS(i)                      *((volatile uint32*)(TIMER(i)+0x01C))
-#define GPTMMIS(i)                      *((volatile uint32*)(TIMER(i)+0x020))
-#define GPTMICR(i)                      *((volatile uint32*)(TIMER(i)+0x024))
-#define GPTMTAILR(i)                    *((volatile uint32*)(TIMER(i)+0x028))
-#define GPTMTAPR(i)                     *((volatile uint32*)(TIMER(i)+0x038))
-#define GPTMTAV(i)                      *((volatile uint32*)(TIMER(i)+0x050)) 
+#define TIMER_BASE_ADDRESS           0x40030000
 
-#if 0
-#define GPTM_WT_OFFSET_ADDRESS(i)        ((i<2? ((0x40036000)+((i)*0x1000)):(0x4004C000)+((i-2)*0x1000)))
-#define WTIMER(i)                       *((volatile uint32*)(GPTM_WT_OFFSET_ADDRESS(i)))
-#endif
+#define GPTMCFG                      (0x000u)
+#define GPTMTAMR                     (0x004u)
+#define GPTMCTL                      (0x00Cu)
+#define GPTMIMR                      (0x018u)
+#define GPTMRIS                      (0x01Cu)
+#define GPTMMIS                      (0x020u)
+#define GPTMICR                      (0x024u)
+#define GPTMTAILR                    (0x028u)
+#define GPTMTAPR                     (0x038u)
+#define GPTMTAV                      (0x050u) 
+
 /*-----------------------------------------------------------------------------------------------
   SYSCTRL CONSTANT MACROS
  ------------------------------------------------------------------------------------------------*/

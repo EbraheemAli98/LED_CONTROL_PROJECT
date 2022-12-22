@@ -21,18 +21,6 @@
 /*************************************************************************************************
  * APIs IMPLEMENTATION
  ************************************************************************************************/
-/*-----------------------------------------------------------------------------------
- Service Name     : LED_Init
- Sync/Async       : Synchronous
- Reentrnacy       : Non-Reentrant
- Parameter(in)    : None
- Parameter(in/out): None
- Parameter(out)   : None
- Return Value     : None
- Description      : Function to initialize Led.
- -----------------------------------------------------------------------------------*/
- void LED_Init(void){}
-
  /*-----------------------------------------------------------------------------------
  Service Name     : LED_WriteHigh
  Sync/Async       : Synchronous
@@ -43,7 +31,10 @@
  Return Value     : None  
  Description      : Function to Turn on Led.
  -----------------------------------------------------------------------------------*/
- void LED_WriteHigh(void){}
+ void LED_WriteHigh(void)
+ {
+    Dio_WriteChannel(LED_CHANNEL_INDEX,LED_ON);
+ }
 
  /*-----------------------------------------------------------------------------------
  Service Name     : LED_WriteLow
@@ -55,7 +46,10 @@
  Return Value     : None
  Description      : Function to turn off Led.
  -----------------------------------------------------------------------------------*/
- void LED_WriteLow(void){}
+ void LED_WriteLow(void)
+ {
+    Dio_WriteChannel(LED_CHANNEL_INDEX,LED_OFF);
+ }
 
 /***************************************************************************************
 *   END OF FILE: Led.c

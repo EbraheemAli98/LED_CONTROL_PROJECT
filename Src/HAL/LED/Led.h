@@ -24,7 +24,7 @@
 #define LED_OFF     STD_LOW
 
 #define LED_PORT_ID         DIO_LED_PORT_ID
-#define LED_CHANNEL_ID      DIO_LED_CHL_ID
+#define LED_CHANNEL_INDEX   DIO_LED_CHL_INDEX
 
 
 /*************************************************************************************************
