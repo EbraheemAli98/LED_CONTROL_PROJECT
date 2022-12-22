@@ -15,7 +15,7 @@
 #include "../../MCAL/GPIO/Dio.h"
 #include "../../HAL/BUTTON/Button.h"
 #include "../../HAL/LED/Led.h"
-#include "../MCAL/Gpt/Gpt.h"
+#include "../../MCAL/Gpt/Gpt.h"
 
 
 /******************************************************************************************************
@@ -35,7 +35,7 @@ void LedBlinkingApp_Init(void)
 {
     Port_Init(&Port_PinConfig);
     Gpt_Init(&Gpt_ChannelConfigurationStr);
-    Gpt_Notification_Channel0(LED_Blink);
+    //Gpt_Notification_Channel0(LED_Blink);
     Gpt_EnableNotification(GPT_CHL0_ID);
     Button_Init();
 }
