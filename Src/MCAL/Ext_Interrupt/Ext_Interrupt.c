@@ -28,7 +28,7 @@ const ExtInt_ConfigType ExtInterruptConfig =
 /*************************************************************************************************
  * LOCAL DATA
  ************************************************************************************************/
-static volatile void (*g_GPIOF_CallBck_Ptr)(void) = NULL_PTR; 
+static void (*g_GPIOF_CallBck_Ptr)(void) = NULL_PTR; 
 static const ExtInt_ConfigType *InterruptConfigPtr = NULL_PTR;
 
 

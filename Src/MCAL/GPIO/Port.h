@@ -28,11 +28,11 @@
 #define PORT_ON_TIME_BUTTON_CHL_INDEX            (1U)
 #define PORT_OFF_TIME_BUTTON_CHL_INDEX           (2U)
 
-#define LED_CHL_ID                              (PIN2_ID)   /* Pin1 */
+#define PORT_LED_CHL_ID                         (PIN2_ID)   /* Pin1 */
 #define ON_TIME_BUTTON_CHL_ID                   (PIN0_ID)   /* Pin0 */
 #define OFF_TIME_BUTTON_CHL_ID                  (PIN4_ID)   /* Pin4 */
 
-#define LED_PORT_ID                             (PORTF_ID)  /* PORTF */
+#define PORT_LED_PORT_ID                        (PORTF_ID)  /* PORTF */
 #define ON_TIME_BUTTON_PORT_ID                  (PORTF_ID) 
 #define OFF_TIME_BUTTON_PORT_ID                 (PORTF_ID)
 

@@ -21,9 +21,9 @@
  ************************************************************************************************/ 
 
 /*-----------------------------------------------------------------------------------------------
-  GPIO CONSTANT MACROS
+  GPIO DRIVER CONSTANT MACROS
  ------------------------------------------------------------------------------------------------*/
-#define GPIO_OFFSET_ADDRESS(i)           (i<4? ((0x40004000)+((i)*0x1000)):(0x40024000)+((i-4)*0x1000))
+#define GPIO_OFFSET_ADDRESS(i)          (i<4? ((0x40004000)+((i)*0x1000)):(0x40024000)+((i-4)*0x1000))
 #define GPIODATA(i)                     *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x3FC))
 #define GPIODIR(i)                      *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x400))
 #define GPIOIS(i)                       *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x404))
@@ -47,7 +47,7 @@
 #define GPIOAMSEL(i)                    *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x528))
 #define GPIOPCTL(i)                     *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x52C))
 /*-----------------------------------------------------------------------------------------------
-  INTCTRL CONSTANT MACROS
+  INTCTRL DRIVER CONSTANT MACROS
  ------------------------------------------------------------------------------------------------*/
 #define CORTEXM4_PERI_BASE_ADDRESS       0xE000E000
 #define PRIx(i)                         (*((volatile uint32*)(CORTEXM4_PERI_BASE_ADDRESS+(0x00000400+((i/4)*4)))))
@@ -56,10 +56,29 @@
 #define APINT                           *((volatile uint32*)(CORTEXM4_PERI_BASE_ADDRESS+0xD0C))
 #define INTCTRL                         *((volatile INTCTRL_Tag*)(CORTEXM4_PERI_BASE_ADDRESS+0xD04))
 /*-----------------------------------------------------------------------------------------------
+  GPT DRIVER CONSTANT MACROS
+ ------------------------------------------------------------------------------------------------*/
+#define TIMER(i)                        *((volatile uint32*)((0x40030000)+((i)*0x1000)))
+#define GPTMCFG(i)                      *((volatile uint32*)(TIMER(i)+0x000))
+#define GPTMTAMR(i)                     *((volatile uint32*)(TIMER(i)+0x004))
+#define GPTMCTL(i)                      *((volatile uint32*)(TIMER(i)+0x00C))
+#define GPTMIMT(i)                      *((volatile uint32*)(TIMER(i)+0x018))
+#define GPTMRIS(i)                      *((volatile uint32*)(TIMER(i)+0x01C))
+#define GPTMMIS(i)                      *((volatile uint32*)(TIMER(i)+0x020))
+#define GPTMICR(i)                      *((volatile uint32*)(TIMER(i)+0x024))
+#define GPTMTAILR(i)                    *((volatile uint32*)(TIMER(i)+0x028))
+#define GPTMTAPR(i)                     *((volatile uint32*)(TIMER(i)+0x038))
+#define GPTMTAV(i)                      *((volatile uint32*)(TIMER(i)+0x050)) 
+
+#if 0
+#define GPTM_WT_OFFSET_ADDRESS(i)        ((i<2? ((0x40036000)+((i)*0x1000)):(0x4004C000)+((i-2)*0x1000)))
+#define WTIMER(i)                       *((volatile uint32*)(GPTM_WT_OFFSET_ADDRESS(i)))
+#endif
+/*-----------------------------------------------------------------------------------------------
   SYSCTRL CONSTANT MACROS
  ------------------------------------------------------------------------------------------------*/
+#define SYSCTL_RCGCTIMER                *((volatile uint32*)(0x400FE000+0x604))
 #define SYSCTL_RCGCGPIO                 *((volatile uint32*)(0x400FE000+0x608))
-
 
 #endif /* MCU_HW_H */
 

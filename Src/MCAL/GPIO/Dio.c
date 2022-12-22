@@ -27,7 +27,7 @@
  ************************************************************************************************/
 const Dio_ConfigType Dio_Config =
     {
-        {{LED_PORT_ID, LED_CHL_ID},
+        {{DIO_LED_PORT_ID, DIO_LED_CHL_ID},
          {ON_TIME_BUTTON_PORT_ID, ON_TIME_BUTTON_CHL_ID},
          {OFF_TIME_BUTTON_PORT_ID, OFF_TIME_BUTTON_CHL_ID}
         }

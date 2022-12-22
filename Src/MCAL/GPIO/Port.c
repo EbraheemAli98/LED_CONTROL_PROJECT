@@ -25,7 +25,7 @@
 /*************************************************************************************************
  * LOCAL DATA
  ************************************************************************************************/
-static uint8 port_pin[PORT_CONFIGURED_PORT_PINS] = {LED_PORT_ID,ON_TIME_BUTTON_PORT_ID,OFF_TIME_BUTTON_PORT_ID};
+static uint8 port_pin[PORT_CONFIGURED_PORT_PINS] = {PORT_LED_PORT_ID,ON_TIME_BUTTON_PORT_ID,OFF_TIME_BUTTON_PORT_ID};
 static const Port_ConfigType* Port_PinIndex = NULL_PTR;
 
 /*************************************************************************************************
@@ -33,7 +33,7 @@ static const Port_ConfigType* Port_PinIndex = NULL_PTR;
  ************************************************************************************************/
 const Port_ConfigType Port_PinConfig =
     {
-        {{LED_CHL_ID,PORT_PIN_DIO_MODE,PORT_PIN_LEVEL_LOW,PORT_PIN_OUTPUT,PORT_PIN_CURRENT_8MA,RES_OFF},
+        {{PORT_LED_CHL_ID,PORT_PIN_DIO_MODE,PORT_PIN_LEVEL_LOW,PORT_PIN_OUTPUT,PORT_PIN_CURRENT_8MA,RES_OFF},
          {ON_TIME_BUTTON_CHL_ID,PORT_PIN_DIO_MODE,PORT_PIN_LEVEL_HIGH,PORT_PIN_INPUT,PORT_PIN_CURRENT_8MA,PULL_UP},
          {OFF_TIME_BUTTON_CHL_ID,PORT_PIN_DIO_MODE,PORT_PIN_LEVEL_HIGH,PORT_PIN_INPUT,PORT_PIN_CURRENT_8MA,PULL_UP}
         }

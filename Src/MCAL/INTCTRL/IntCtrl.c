@@ -22,7 +22,7 @@ const IntCtrl_ConfigType InterruptConfigInfo =
 {
     {{ENABLE,LEVEL_ZERO,GPIO_PORTF},
     {ENABLE,LEVEL_ZERO,GPIO_PORTF},
-    {ENABLE,LEVEL_ZERO,GPIO_PORTF}}
+    {ENABLE,LEVEL_ONE,_16BIT_TIMER0A}}
 };
 
 /*************************************************************************************************
