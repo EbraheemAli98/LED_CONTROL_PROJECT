@@ -1,0 +1,246 @@
+/**************************************************************************************************
+ * File Description
+ * -----------------------------------------------------------------------------------------------
+ *      File: Mcu_Hw.h
+ *    Module: Mcu_Hw
+ * 
+ * Description: Header file for Register definition.
+ * 
+ **************************************************************************************************/
+
+#ifndef MCU_HW_H
+#define MCU_HW_H
+
+/*************************************************************************************************
+ * INCLUDES
+ ************************************************************************************************/
+#include "../../SERVICES/Std_Types.h"
+
+/*************************************************************************************************
+ * GLOBAL CONSTANT MACROS
+ ************************************************************************************************/ 
+
+/*-----------------------------------------------------------------------------------------------
+  GPIO DRIVER CONSTANT MACROS
+ ------------------------------------------------------------------------------------------------*/
+#define GPIO_OFFSET_ADDRESS(i)          (i<4? ((0x40004000)+((i)*0x1000)):(0x40024000)+((i-4)*0x1000))
+#define GPIODATA(i)                     *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x3FC))
+#define GPIODIR(i)                      *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x400))
+#define GPIOIS(i)                       *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x404))
+#define GPIOIBE(i)                      *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x408))
+#define GPIOIEV(i)                      *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x40C))
+#define GPIOIM(i)                       *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x410))
+#define GPIORIS(i)                      *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x414))
+#define GPIOMIS(i)                      *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x418))
+#define GPIOICR(i)                      *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x41C))
+#define GPIOAFSEL(i)                    *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x420))
+#define GPIOR2R(i)                      *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x500))
+#define GPIOR4R(i)                      *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x504))
+#define GPIOR8R(i)                      *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x508))
+#define GPIOODR(i)                      *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x50C))
+#define GPIOPUR(i)                      *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x510))
+#define GPIOPDR(i)                      *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x514))
+#define GPIOSLR(i)                      *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x518))
+#define GPIODEN(i)                      *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x51C))
+#define GPIOLOCK(i)                     *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x520))
+#define GPIOCR(i)                       *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x524))
+#define GPIOAMSEL(i)                    *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x528))
+#define GPIOPCTL(i)                     *((volatile uint32*)(GPIO_OFFSET_ADDRESS(i)+0x52C))
+/*-----------------------------------------------------------------------------------------------
+  INTCTRL DRIVER CONSTANT MACROS
+ ------------------------------------------------------------------------------------------------*/
+#define CORTEXM4_PERI_BASE_ADDRESS       0xE000E000
+#define PRIx(i)                         (*((volatile uint32*)(CORTEXM4_PERI_BASE_ADDRESS+(0x00000400+((i/4)*4)))))
+#define ENx(i)                          (*((volatile uint32*)(CORTEXM4_PERI_BASE_ADDRESS+(0x00000100+((i/32)*32)))))
+#define DISx(i)                         (*((volatile uint32*)(CORTEXM4_PERI_BASE_ADDRESS+(0x00000180+((i/32)*32)))))
+#define APINT                           *((volatile uint32*)(CORTEXM4_PERI_BASE_ADDRESS+0xD0C))
+#define INTCTRL                         *((volatile INTCTRL_Tag*)(CORTEXM4_PERI_BASE_ADDRESS+0xD04))
+/*-----------------------------------------------------------------------------------------------
+  GPT DRIVER CONSTANT MACROS
+ ------------------------------------------------------------------------------------------------*/
+#if 0
+#define TIMER(i)                        *((volatile uint32*)((0x40030000)+((i)*0x1000)))
+#define GPTMCFG(i)                      *((volatile uint32*)(TIMER(i)+0x000))
+#define GPTMTAMR(i)                     *((volatile uint32*)(TIMER(i)+0x004))
+#define GPTMCTL(i)                      *((volatile uint32*)(TIMER(i)+0x00C))
+#define GPTMIMT(i)                      *((volatile uint32*)(TIMER(i)+0x018))
+#define GPTMRIS(i)                      *((volatile uint32*)(TIMER(i)+0x01C))
+#define GPTMMIS(i)                      *((volatile uint32*)(TIMER(i)+0x020))
+#define GPTMICR(i)                      *((volatile uint32*)(TIMER(i)+0x024))
+#define GPTMTAILR(i)                    *((volatile uint32*)(TIMER(i)+0x028))
+#define GPTMTAPR(i)                     *((volatile uint32*)(TIMER(i)+0x038))
+#define GPTMTAV(i)                      *((volatile uint32*)(TIMER(i)+0x050)) 
+#endif
+
+/************************************************************************************************************
+ *                                  General Purpose Timer (TIMER0)
+ ***********************************************************************************************************/
+#define GPTM0_CFG                 (*((volatile uint32_t*)0x40030000))
+#define GPTM0_TAMR                (*((volatile uint32_t*)0x40030004))
+#define GPTM0_TBMR                (*((volatile uint32_t*)0x40030008))
+#define GPTM0_CTL                 (*((volatile uint32_t*)0x4003000C))
+#define GPTM0_IMR                 (*((volatile uint32_t*)0x40030018))
+#define GPTM0_RIS                 (*((volatile uint32_t*)0x4003001C))
+#define GPTM0_MIS                 (*((volatile uint32_t*)0x40030020))
+#define GPTM0_ICR                 (*((volatile uint32_t*)0x40030024))
+#define GPTM0_TAILR               (*((volatile uint32_t*)0x40030028))
+#define GPTM0_TBILR               (*((volatile uint32_t*)0x4003002C))
+#define GPTM0_TAMATCHR            (*((volatile uint32_t*)0x40030030))
+#define GPTM0_TBMATCHR            (*((volatile uint32_t*)0x40030034))
+#define GPTM0_TAPR                (*((volatile uint32_t*)0x40030038))
+#define GPTM0_TBPR                (*((volatile uint32_t*)0x4003003C))
+#define GPTM0_TAPMR               (*((volatile uint32_t*)0x40030040))
+#define GPTM0_TBPMR               (*((volatile uint32_t*)0x40030044))
+#define GPTM0_TAR                 (*((volatile uint32_t*)0x40030048))
+#define GPTM0_TBR                 (*((volatile uint32_t*)0x4003004C))
+#define GPTM0_TAV                 (*((volatile uint32_t*)0x40030050))
+#define GPTM0_TBV                 (*((volatile uint32_t*)0x40030054))
+#define GPTM0_TAPV                (*((volatile uint32_t*)0x40030064))
+#define GPTM0_TBPV                (*((volatile uint32_t*)0x40030068))
+
+/************************************************************************************************************
+ *                                  General Purpose Timer (TIMER1)
+ ***********************************************************************************************************/
+#define GPTM1_CFG                 (*((volatile uint32_t*)0x40031000))
+#define GPTM1_TAMR                (*((volatile uint32_t*)0x40031004))
+#define GPTM1_TBMR                (*((volatile uint32_t*)0x40031008))
+#define GPTM1_CTL                 (*((volatile uint32_t*)0x4003100C))
+#define GPTM1_IMR                 (*((volatile uint32_t*)0x40031018))
+#define GPTM1_RIS                 (*((volatile uint32_t*)0x4003101C))
+#define GPTM1_MIS                 (*((volatile uint32_t*)0x40031020))
+#define GPTM1_ICR                 (*((volatile uint32_t*)0x40031024))
+#define GPTM1_TAILR               (*((volatile uint32_t*)0x40031028))
+#define GPTM1_TBILR               (*((volatile uint32_t*)0x4003102C))
+#define GPTM1_TAMATCHR            (*((volatile uint32_t*)0x40031030))
+#define GPTM1_TBMATCHR            (*((volatile uint32_t*)0x40031034))
+#define GPTM1_TAPR                (*((volatile uint32_t*)0x40031038))
+#define GPTM1_TBPR                (*((volatile uint32_t*)0x4003103C))
+#define GPTM1_TAPMR               (*((volatile uint32_t*)0x40031040))
+#define GPTM1_TBPMR               (*((volatile uint32_t*)0x40031044))
+#define GPTM1_TAR                 (*((volatile uint32_t*)0x40031048))
+#define GPTM1_TBR                 (*((volatile uint32_t*)0x4003104C))
+#define GPTM1_TAV                 (*((volatile uint32_t*)0x40031050))
+#define GPTM1_TBV                 (*((volatile uint32_t*)0x40031054))
+#define GPTM1_TAPV                (*((volatile uint32_t*)0x40031064))
+#define GPTM1_TBPV                (*((volatile uint32_t*)0x40031068))
+
+/************************************************************************************************************
+ *                                  General Purpose Timer (TIMER2)
+ ***********************************************************************************************************/
+#define GPTM2_CFG                 (*((volatile uint32_t*)0x40032000))
+#define GPTM2_TAMR                (*((volatile uint32_t*)0x40032004))
+#define GPTM2_TBMR                (*((volatile uint32_t*)0x40032008))
+#define GPTM2_CTL                 (*((volatile uint32_t*)0x4003200C))
+#define GPTM2_IMR                 (*((volatile uint32_t*)0x40032018))
+#define GPTM2_RIS                 (*((volatile uint32_t*)0x4003201C))
+#define GPTM2_MIS                 (*((volatile uint32_t*)0x40032020))
+#define GPTM2_ICR                 (*((volatile uint32_t*)0x40032024))
+#define GPTM2_TAILR               (*((volatile uint32_t*)0x40032028))
+#define GPTM2_TBILR               (*((volatile uint32_t*)0x4003202C))
+#define GPTM2_TAMATCHR            (*((volatile uint32_t*)0x40032030))
+#define GPTM2_TBMATCHR            (*((volatile uint32_t*)0x40032034))
+#define GPTM2_TAPR                (*((volatile uint32_t*)0x40032038))
+#define GPTM2_TBPR                (*((volatile uint32_t*)0x4003203C))
+#define GPTM2_TAPMR               (*((volatile uint32_t*)0x40032040))
+#define GPTM2_TBPMR               (*((volatile uint32_t*)0x40032044))
+#define GPTM2_TAR                 (*((volatile uint32_t*)0x40032048))
+#define GPTM2_TBR                 (*((volatile uint32_t*)0x4003204C))
+#define GPTM2_TAV                 (*((volatile uint32_t*)0x40032050))
+#define GPTM2_TBV                 (*((volatile uint32_t*)0x40032054))
+#define GPTM2_TAPV                (*((volatile uint32_t*)0x40032064))
+#define GPTM2_TBPV                (*((volatile uint32_t*)0x40032068))
+
+/************************************************************************************************************
+ *                                  General Purpose Timer (TIMER3)
+ ***********************************************************************************************************/
+#define GPTM3_CFG                 (*((volatile uint32_t*)0x40033000))
+#define GPTM3_TAMR                (*((volatile uint32_t*)0x40033004))
+#define GPTM3_TBMR                (*((volatile uint32_t*)0x40033008))
+#define GPTM3_CTL                 (*((volatile uint32_t*)0x4003300C))
+#define GPTM3_IMR                 (*((volatile uint32_t*)0x40033018))
+#define GPTM3_RIS                 (*((volatile uint32_t*)0x4003301C))
+#define GPTM3_MIS                 (*((volatile uint32_t*)0x40033020))
+#define GPTM3_ICR                 (*((volatile uint32_t*)0x40033024))
+#define GPTM3_TAILR               (*((volatile uint32_t*)0x40033028))
+#define GPTM3_TBILR               (*((volatile uint32_t*)0x4003302C))
+#define GPTM3_TAMATCHR            (*((volatile uint32_t*)0x40033030))
+#define GPTM3_TBMATCHR            (*((volatile uint32_t*)0x40033034))
+#define GPTM3_TAPR                (*((volatile uint32_t*)0x40033038))
+#define GPTM3_TBPR                (*((volatile uint32_t*)0x4003303C))
+#define GPTM3_TAPMR               (*((volatile uint32_t*)0x40033040))
+#define GPTM3_TBPMR               (*((volatile uint32_t*)0x40033044))
+#define GPTM3_TAR                 (*((volatile uint32_t*)0x40033048))
+#define GPTM3_TBR                 (*((volatile uint32_t*)0x4003304C))
+#define GPTM3_TAV                 (*((volatile uint32_t*)0x40033050))
+#define GPTM3_TBV                 (*((volatile uint32_t*)0x40033054))
+#define GPTM3_TAPV                (*((volatile uint32_t*)0x40033064))
+#define GPTM3_TBPV                (*((volatile uint32_t*)0x40033068))
+
+/************************************************************************************************************
+ *                                  General Purpose Timer (TIMER4)
+ ***********************************************************************************************************/
+#define GPTM4_CFG                 (*((volatile uint32_t*)0x40034000))
+#define GPTM4_TAMR                (*((volatile uint32_t*)0x40034004))
+#define GPTM4_TBMR                (*((volatile uint32_t*)0x40034008))
+#define GPTM4_CTL                 (*((volatile uint32_t*)0x4003400C))
+#define GPTM4_IMR                 (*((volatile uint32_t*)0x40034018))
+#define GPTM4_RIS                 (*((volatile uint32_t*)0x4003401C))
+#define GPTM4_MIS                 (*((volatile uint32_t*)0x40034020))
+#define GPTM4_ICR                 (*((volatile uint32_t*)0x40034024))
+#define GPTM4_TAILR               (*((volatile uint32_t*)0x40034028))
+#define GPTM4_TBILR               (*((volatile uint32_t*)0x4003402C))
+#define GPTM4_TAMATCHR            (*((volatile uint32_t*)0x40034030))
+#define GPTM4_TBMATCHR            (*((volatile uint32_t*)0x40034034))
+#define GPTM4_TAPR                (*((volatile uint32_t*)0x40034038))
+#define GPTM4_TBPR                (*((volatile uint32_t*)0x4003403C))
+#define GPTM4_TAPMR               (*((volatile uint32_t*)0x40034040))
+#define GPTM4_TBPMR               (*((volatile uint32_t*)0x40034044))
+#define GPTM4_TAR                 (*((volatile uint32_t*)0x40034048))
+#define GPTM4_TBR                 (*((volatile uint32_t*)0x4003404C))
+#define GPTM4_TAV                 (*((volatile uint32_t*)0x40034050))
+#define GPTM4_TBV                 (*((volatile uint32_t*)0x40034054))
+#define GPTM4_TAPV                (*((volatile uint32_t*)0x40034064))
+#define GPTM4_TBPV                (*((volatile uint32_t*)0x40034068))
+
+/************************************************************************************************************
+ *                                  General Purpose Timer (TIMER5)
+ ***********************************************************************************************************/
+#define GPTM5_CFG                 (*((volatile uint32_t*)0x40035000))
+#define GPTM5_TAMR                (*((volatile uint32_t*)0x40035004))
+#define GPTM5_TBMR                (*((volatile uint32_t*)0x40035008))
+#define GPTM5_CTL                 (*((volatile uint32_t*)0x4003500C))
+#define GPTM5_IMR                 (*((volatile uint32_t*)0x40035018))
+#define GPTM5_RIS                 (*((volatile uint32_t*)0x4003501C))
+#define GPTM5_MIS                 (*((volatile uint32_t*)0x40035020))
+#define GPTM5_ICR                 (*((volatile uint32_t*)0x40035024))
+#define GPTM5_TAILR               (*((volatile uint32_t*)0x40035028))
+#define GPTM5_TBILR               (*((volatile uint32_t*)0x4003502C))
+#define GPTM5_TAMATCHR            (*((volatile uint32_t*)0x40035030))
+#define GPTM5_TBMATCHR            (*((volatile uint32_t*)0x40035034))
+#define GPTM5_TAPR                (*((volatile uint32_t*)0x40035038))
+#define GPTM5_TBPR                (*((volatile uint32_t*)0x4003503C))
+#define GPTM5_TAPMR               (*((volatile uint32_t*)0x40035040))
+#define GPTM5_TBPMR               (*((volatile uint32_t*)0x40035044))
+#define GPTM5_TAR                 (*((volatile uint32_t*)0x40035048))
+#define GPTM5_TBR                 (*((volatile uint32_t*)0x4003504C))
+#define GPTM5_TAV                 (*((volatile uint32_t*)0x40035050))
+#define GPTM5_TBV                 (*((volatile uint32_t*)0x40035054))
+#define GPTM5_TAPV                (*((volatile uint32_t*)0x40035064))
+#define GPTM5_TBPV                (*((volatile uint32_t*)0x40035068))
+
+
+#if 0
+#define GPTM_WT_OFFSET_ADDRESS(i)        ((i<2? ((0x40036000)+((i)*0x1000)):(0x4004C000)+((i-2)*0x1000)))
+#define WTIMER(i)                       *((volatile uint32*)(GPTM_WT_OFFSET_ADDRESS(i)))
+#endif
+/*-----------------------------------------------------------------------------------------------
+  SYSCTRL CONSTANT MACROS
+ ------------------------------------------------------------------------------------------------*/
+#define SYSCTL_RCGCTIMER                *((volatile uint32*)(0x400FE000+0x604))
+#define SYSCTL_RCGCGPIO                 *((volatile uint32*)(0x400FE000+0x608))
+
+#endif /* MCU_HW_H */
+
+/***************************************************************************************
+*   END OF FILE: Mcu_Hw.h
+***************************************************************************************/
