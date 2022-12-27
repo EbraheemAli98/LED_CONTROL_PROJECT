@@ -2,4 +2,4 @@
 
 2.The project is using a TM4C123GH6PM Tiva c microcontroller.
 
-3. The videos that explaining each module and the project running on the HW are in this link : https://drive.google.com/drive/folders/1L7EfdeoPcbJzb6V9I7FtNzVI1sJcDSI6
+3. The videos that explaining each module and the project running on the HW are in this link : https://drive.google.com/file/d/1t8XTiSMtaWWOZl1HQp9b9TEm5JCX5HY6/view?usp=sharing 
